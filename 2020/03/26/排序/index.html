@@ -8,20 +8,20 @@
   <link rel="dns-prefetch" href="http://yoursite.com">
   <title>排序题目 | yueer18</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="1234567891011void sort(int *array; int len)&amp;#123;&amp;#125;void swap(int *a, int *b)&amp;#123;    int temp &#x3D; *a;    *a &#x3D; *b;    *b &#x3D; temp;&amp;#125;   1 冒泡排序1234567891011void sort(int *array, int l">
+  <meta name="description" content="1234567891011void sort(int *array; int len)&amp;#123;&amp;#125;void swap(int *a, int *b)&amp;#123;    int temp &#x3D; *a;    *a &#x3D; *b;    *b &#x3D; temp;&amp;#125;   1 冒泡排序123456789101112void sort(int *array, int">
 <meta property="og:type" content="article">
 <meta property="og:title" content="排序题目">
 <meta property="og:url" content="http://yoursite.com/2020/03/26/%E6%8E%92%E5%BA%8F/index.html">
 <meta property="og:site_name" content="yueer18">
-<meta property="og:description" content="1234567891011void sort(int *array; int len)&amp;#123;&amp;#125;void swap(int *a, int *b)&amp;#123;    int temp &#x3D; *a;    *a &#x3D; *b;    *b &#x3D; temp;&amp;#125;   1 冒泡排序1234567891011void sort(int *array, int l">
+<meta property="og:description" content="1234567891011void sort(int *array; int len)&amp;#123;&amp;#125;void swap(int *a, int *b)&amp;#123;    int temp &#x3D; *a;    *a &#x3D; *b;    *b &#x3D; temp;&amp;#125;   1 冒泡排序123456789101112void sort(int *array, int">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="http://yoursite.com/2020/03/26/%E6%8E%92%E5%BA%8F/sort.jpeg">
+<meta property="og:image" content="http://yoursite.com/2020/03/26/%E6%8E%92%E5%BA%8F/sort.PNG">
 <meta property="article:published_time" content="2020-03-26T01:36:13.000Z">
-<meta property="article:modified_time" content="2020-03-30T13:10:01.707Z">
+<meta property="article:modified_time" content="2020-03-30T13:25:00.559Z">
 <meta property="article:author" content="yueer18">
 <meta property="article:tag" content="算法">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="http://yoursite.com/2020/03/26/%E6%8E%92%E5%BA%8F/sort.jpeg">
+<meta name="twitter:image" content="http://yoursite.com/2020/03/26/%E6%8E%92%E5%BA%8F/sort.PNG">
   
     <link rel="alternative" href="/atom.xml" title="yueer18" type="application/atom+xml">
   
@@ -183,8 +183,8 @@
       
         <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">void sort(int *array; int len)</span><br><span class="line">&#123;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">void swap(int *a, int *b)</span><br><span class="line">&#123;</span><br><span class="line">    int temp &#x3D; *a;</span><br><span class="line">    *a &#x3D; *b;</span><br><span class="line">    *b &#x3D; temp;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-<p><img src="sort.jpeg" alt="sort"></p>
-<h2 id="1-冒泡排序"><a href="#1-冒泡排序" class="headerlink" title="1 冒泡排序"></a>1 冒泡排序</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">void sort(int *array, int len)</span><br><span class="line">&#123;</span><br><span class="line">    int i, j;</span><br><span class="line"></span><br><span class="line">    for(i &#x3D;0; i &lt; len; i++) &#123;</span><br><span class="line">        for(j&#x3D;0; j&lt;len-i-1; j++)&#123;</span><br><span class="line">            if(array[j] &gt; array[j+1])</span><br><span class="line">                swap(&amp;array[j], &amp;array[j+1]);</span><br><span class="line">        &#125;       </span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><img src="sort.PNG" alt="sort"></p>
+<h2 id="1-冒泡排序"><a href="#1-冒泡排序" class="headerlink" title="1 冒泡排序"></a>1 冒泡排序</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">void sort(int *array, int len)</span><br><span class="line">&#123;</span><br><span class="line">    int i, j;</span><br><span class="line"></span><br><span class="line">    for(i &#x3D;0; i &lt; len; i++) &#123;</span><br><span class="line">        &#x2F;&#x2F;&#x2F;&#x2F; 这里-i主要是每遍历一次都把最大的i个数沉到最底下去了，没有必要再替换了</span><br><span class="line">        for(j&#x3D;0; j&lt;len-i-1; j++)&#123;</span><br><span class="line">            if(array[j] &gt; array[j+1])</span><br><span class="line">                swap(&amp;array[j], &amp;array[j+1]);</span><br><span class="line">        &#125;       </span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
       
 
       
