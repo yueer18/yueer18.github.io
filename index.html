@@ -176,14 +176,14 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h2 id="基本概念"><a href="#基本概念" class="headerlink" title="基本概念"></a>基本概念</h2><p>ASCII 是用128（2的8次方）个字符，对二进制数据进行编码的方式<br>base64编码是用64（2的6次方）个字符，对二进制数据进行编码的方式<br>base32就是用32（2的5次方）个字符，对二进制数据进行编码的方式<br>base16就是用16（2的4次方）个字符，对二进制数据进行编码的方式</p>
+        <h1 id="基本概念"><a href="#基本概念" class="headerlink" title="基本概念"></a>基本概念</h1><p>ASCII 是用128（2的8次方）个字符，对二进制数据进行编码的方式<br>base64编码是用64（2的6次方）个字符，对二进制数据进行编码的方式<br>base32就是用32（2的5次方）个字符，对二进制数据进行编码的方式<br>base16就是用16（2的4次方）个字符，对二进制数据进行编码的方式</p>
 <h5 id="base64-base32-base16"><a href="#base64-base32-base16" class="headerlink" title="base64/base32/base16"></a>base64/base32/base16</h5><p>m*8位输入比特流表示为输入8个编码字符的字符串作为编码输入.<br>这m*8位视为n个x位组，每个组根据对应的基数（64、32）翻译成成单个字符字母。当通过对应基数编码时，必须假定比特流是8位有效位，即最高位补（8-x个）0。</p>
 <ul>
 <li>编码输入如果恰好是m*8个整数倍位，输出将是n个字符的倍数。</li>
 <li>编码输入最终数量（之前是m*8个整数倍位）如果恰好是（m-y）*8个整数倍位，编码输出最终单位将是8/x（向上取整）个，后跟n-8/x（向上取整）个”=”填充字符。<br>base64: 3*8 -&gt; 4*6 -&gt;转码输出长度4*8<br>base32: 5*8 -&gt; 8*5 -&gt;转码输出长度8*8</li>
 <li>base16不需要填充<br>base32: 8 -&gt; 2*4 -&gt;转码输出长度2*8</li>
 </ul>
-<h2 id="base64"><a href="#base64" class="headerlink" title="base64"></a>base64</h2><p>用记事本打开exe\jpg\pdf等二进制文件时，有许多无法显示的字符，为了方便文本处理和可视化（非可视化），就需要bin2字符串转换。base64最常见。<br>也会用于网络8字节传输。查看RFC2045～RFC2049，上面有MIME的详细规范。</p>
+<h1 id="Base64"><a href="#Base64" class="headerlink" title="Base64"></a>Base64</h1><p>用记事本打开exe\jpg\pdf等二进制文件时，有许多无法显示的字符，为了方便文本处理和可视化（非可视化），就需要bin2字符串转换。base64最常见。<br>也会用于网络8字节传输。查看RFC2045～RFC2049，上面有MIME的详细规范。</p>
 <h4 id="算法原理-–-解释一"><a href="#算法原理-–-解释一" class="headerlink" title="算法原理 – 解释一"></a>算法原理 – 解释一</h4><p><strong>Base64要求把每三个8Bit的字节转换为四个6Bit的字节（3*8 = 4*6 = 24），然后把6Bit再添两位高位0，组成四个8Bit的字节，也就是说，转换后的字符串理论上将要比原来的长1/3。</strong></p>
 <p>为什么用24个字节作为一组？<br>我们先想一下，1字节的ASCII编码是8Bit的有效长度，而1字节的Base64编码只有6Bit的有效长度，所以转换为Base64编码肯定是会造成浪费的，因此我们要找到最节约资源的方式——找6和8的最小公倍数，24。因此我们可以把3个字节（24Bit）的ASCII编码当成一组，分成4组，每组6Bit，然后高位补0（简单来说就是3*8=4*6）。</p>
 <p>举例：<br>转换前 aaaaaabb ccccdddd eeffffff<br>转换后 00aaaaaa 00bbcccc 00ddddee 00ffffff</p>
@@ -215,10 +215,10 @@
 
 
 <p>Base64编码最常见的就是用在邮件发送等通信中。这种编码有利有弊，弊端在于ASCII编码转换成Base64编码的时候，由于每个字节都需要多出2个没用的Bit，所以是会造成浪费的。但是这样子用Base64编码进行数据交换的时候，就可以减少很多错误了。</p>
-<h2 id="base32"><a href="#base32" class="headerlink" title="base32"></a>base32</h2><p><code>[&#39;A&#39;, &#39;B&#39;, &#39;C&#39;, ... &#39;Z&#39;, &#39;2&#39;, &#39;3&#39;, ... &#39;7&#39;]  &#39;=&#39;</code>    </p>
+<h1 id="Base32"><a href="#Base32" class="headerlink" title="Base32"></a>Base32</h1><p><code>[&#39;A&#39;, &#39;B&#39;, &#39;C&#39;, ... &#39;Z&#39;, &#39;2&#39;, &#39;3&#39;, ... &#39;7&#39;]  &#39;=&#39;</code>    </p>
 <p>扩展算法 base32hex<br><code>[&#39;0&#39;, &#39;1&#39;, ... &#39;9&#39;, &#39;A&#39;, &#39;B&#39;, &#39;C&#39;, ... &#39;V&#39;] &#39;=&#39;</code> </p>
 <p>只有编码表不同其他一样</p>
-<h2 id="base16"><a href="#base16" class="headerlink" title="base16"></a>base16</h2><p><code>[ &#39;0&#39;, &#39;1&#39;, ... &#39;9&#39;，&#39;A&#39;, &#39;B&#39;, &#39;C&#39;, &#39;D&#39;, &#39;E&#39;, &#39;F&#39;]</code></p>
+<h1 id="Base16"><a href="#Base16" class="headerlink" title="Base16"></a>Base16</h1><p><code>[ &#39;0&#39;, &#39;1&#39;, ... &#39;9&#39;，&#39;A&#39;, &#39;B&#39;, &#39;C&#39;, &#39;D&#39;, &#39;E&#39;, &#39;F&#39;]</code></p>
 <h3 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h3><p><a href="https://tools.ietf.org/html/rfc4648" target="_blank" rel="noopener">https://tools.ietf.org/html/rfc4648</a><br>baidu google</p>
 
       
