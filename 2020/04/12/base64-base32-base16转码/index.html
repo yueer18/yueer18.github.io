@@ -8,16 +8,16 @@
   <link rel="dns-prefetch" href="http://yoursite.com">
   <title>base64 base32 base16转码 | yueer18</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="基本概念ASCII 是用128（2的8次方）个字符，对二进制数据进行编码的方式base64编码是用64（2的6次方）个字符，对二进制数据进行编码的方式base32就是用32（2的5次方）个字符，对二进制数据进行编码的方式base16就是用16（2的4次方）个字符，对二进制数据进行编码的方式 base64&#x2F;base32&#x2F;base16m*8位输入比特流表示为输入8个编码字符的字符串作为编码输入.这m*">
+  <meta name="description" content="基本概念ASCII 是用128（2的8次方）个字符，对二进制数据进行编码的方式base64编码是用64（2的6次方）个字符，对二进制数据进行编码的方式base32就是用32（2的5次方）个字符，对二进制数据进行编码的方式base16就是用16（2的4次方）个字符，对二进制数据进行编码的方式">
 <meta property="og:type" content="article">
 <meta property="og:title" content="base64 base32 base16转码">
 <meta property="og:url" content="http://yoursite.com/2020/04/12/base64-base32-base16%E8%BD%AC%E7%A0%81/index.html">
 <meta property="og:site_name" content="yueer18">
-<meta property="og:description" content="基本概念ASCII 是用128（2的8次方）个字符，对二进制数据进行编码的方式base64编码是用64（2的6次方）个字符，对二进制数据进行编码的方式base32就是用32（2的5次方）个字符，对二进制数据进行编码的方式base16就是用16（2的4次方）个字符，对二进制数据进行编码的方式 base64&#x2F;base32&#x2F;base16m*8位输入比特流表示为输入8个编码字符的字符串作为编码输入.这m*">
+<meta property="og:description" content="基本概念ASCII 是用128（2的8次方）个字符，对二进制数据进行编码的方式base64编码是用64（2的6次方）个字符，对二进制数据进行编码的方式base32就是用32（2的5次方）个字符，对二进制数据进行编码的方式base16就是用16（2的4次方）个字符，对二进制数据进行编码的方式">
 <meta property="og:image" content="en-resource://database/9958:1">
 <meta property="og:image" content="en-resource://database/9948:1">
 <meta property="article:published_time" content="2020-04-11T16:09:40.000Z">
-<meta property="article:modified_time" content="2020-04-11T16:14:51.994Z">
+<meta property="article:modified_time" content="2020-04-22T23:24:20.732Z">
 <meta property="article:author" content="yueer18">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="en-resource://database/9958:1">
@@ -187,6 +187,7 @@
     <div class="article-entry" itemprop="articleBody">
       
         <h1 id="基本概念"><a href="#基本概念" class="headerlink" title="基本概念"></a>基本概念</h1><p>ASCII 是用128（2的8次方）个字符，对二进制数据进行编码的方式<br>base64编码是用64（2的6次方）个字符，对二进制数据进行编码的方式<br>base32就是用32（2的5次方）个字符，对二进制数据进行编码的方式<br>base16就是用16（2的4次方）个字符，对二进制数据进行编码的方式</p>
+ <a id="more"></a>
 <h5 id="base64-base32-base16"><a href="#base64-base32-base16" class="headerlink" title="base64/base32/base16"></a>base64/base32/base16</h5><p>m*8位输入比特流表示为输入8个编码字符的字符串作为编码输入.<br>这m*8位视为n个x位组，每个组根据对应的基数（64、32）翻译成成单个字符字母。当通过对应基数编码时，必须假定比特流是8位有效位，即最高位补（8-x个）0。</p>
 <ul>
 <li>编码输入如果恰好是m*8个整数倍位，输出将是n个字符的倍数。</li>

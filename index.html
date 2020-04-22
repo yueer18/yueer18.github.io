@@ -182,19 +182,8 @@
     <div class="article-entry" itemprop="articleBody">
       
         <p>Android代码开源，用户群体庞大，遭受的安全风险可能性更高，所以不得不采用业界领先的安全功能，并与开发者和设备实现人员密切合作，以确保 Android 平台和生态系统的安全。</p>
-<h1 id="Android-安全总览"><a href="#Android-安全总览" class="headerlink" title="Android 安全总览"></a>Android 安全总览</h1><p><img src="/2020/04/22/%E5%AE%89%E5%8D%93%E5%AE%89%E5%85%A8%E6%9C%BA%E5%88%B6/%E5%AE%89%E5%8D%93%E5%AE%89%E5%85%A8%E6%9C%BA%E5%88%B6.png" alt="安卓安全机制"><br><a href="安卓安全机制.pdf" title="安卓安全机制">pdf下载</a></p>
-<h1 id="安全定制"><a href="#安全定制" class="headerlink" title="安全定制"></a>安全定制</h1><p>通用的安全机制有可能不适合个例，或者特定需求的防御，或者有些平台并不支持。安全思路是一致的，研发人员可以自己实现一套机制。</p>
-<p>比如，我们只允许安装指定分发的软件，就可以检测管控安装，使用指定或者自己的公私钥，签名/验签。</p>
-<p>比如，我们需要把控可执行文件，可以制作hash map，<br>或者在不破坏包格式的前提下，把检测信息加到elf，zip，app，jar，dex等的头部信息或者某一段secion里。</p>
-<p>比如，我们要保护指定文件不被修改，或者不被删除，可以基于现有安全机制改文件属性，只读分区，只读文件，chattr锁定文件，<br>或者可以基于系统调用/安装监控监控拦截，基于路径监控报警。</p>
-<p>比如，特定数据较为机密，将加密/解密运用到数据存取中。</p>
-<p>比如，防反编译核心文件，可以将关键的elf，放到云端,通过加密传输，每次从云端直接加载到内存里。运行时加持反调试技术。</p>
-<p>比如，需要对特定设备进行把控，可以基于binder服务监控，可以基于文件系统节点，可以基于内核调用。</p>
-<p>有内核代码的情况基于内核，没有内核代码的情况基于文件系统，基于相关底层库，基于进程运行时状态。</p>
-<h1 id="性能"><a href="#性能" class="headerlink" title="性能"></a>性能</h1><p>图灵祖师爷只考虑了实现和性能，没有想到安全更致命。每一种安全机制，都要或多或少的牺牲性能，安全和高效天生就是一对冤家。<br>举个栗子:<br>从A直接到B，耗时3天，需要1个人月的工作量。 —&gt; demo<br>要保证A总能到B，需要考虑异常检查，耗时变为4天，需要3个人月的工作量。—&gt; 初级产品<br>要保证A总能到B，且能体面、友好，需要考虑易用性、稳定性，需要5个人月的工作量。—&gt; 成熟产品<br>要保证到A一定能B，且能体面、友好，且到B的一定是A，需要考虑安全，耗时变为6天+，需要6个人月+的工作量。—&gt; 安全可靠产品</p>
-<h1 id="备注"><a href="#备注" class="headerlink" title="备注"></a>备注</h1><p>上述安全图表每一块都可以单独开一章，后续有时间再慢慢聊。本篇目的是描述整个安全的大图景，纵观全景，防止迷失方向。<br>攻击者单点突破即可，作为安全防御者，需要注重全局防控，技术栈要求更高，依托已有的安全机制防御，可以大幅度降低可攻击面。</p>
-<p>参考:<br>Android安全性官方文档 <a href="https://source.android.com/security" target="_blank" rel="noopener">https://source.android.com/security</a><br>Linux内核安全子系统 <a href="https://git.kernel.org/pub/scm/linux/kernel/git/jmorris/linux-security.git/" target="_blank" rel="noopener">https://git.kernel.org/pub/scm/linux/kernel/git/jmorris/linux-security.git/</a></p>
-
+<h1 id="Android-安全总览"><a href="#Android-安全总览" class="headerlink" title="Android 安全总览"></a>Android 安全总览</h1><p><img src="/2020/04/22/%E5%AE%89%E5%8D%93%E5%AE%89%E5%85%A8%E6%9C%BA%E5%88%B6/%E5%AE%89%E5%8D%93%E5%AE%89%E5%85%A8%E6%9C%BA%E5%88%B6.png" alt="安卓安全机制"><br></p>
+        
       
 
       
@@ -268,50 +257,7 @@
     <div class="article-entry" itemprop="articleBody">
       
         <h1 id="基本概念"><a href="#基本概念" class="headerlink" title="基本概念"></a>基本概念</h1><p>ASCII 是用128（2的8次方）个字符，对二进制数据进行编码的方式<br>base64编码是用64（2的6次方）个字符，对二进制数据进行编码的方式<br>base32就是用32（2的5次方）个字符，对二进制数据进行编码的方式<br>base16就是用16（2的4次方）个字符，对二进制数据进行编码的方式</p>
-<h5 id="base64-base32-base16"><a href="#base64-base32-base16" class="headerlink" title="base64/base32/base16"></a>base64/base32/base16</h5><p>m*8位输入比特流表示为输入8个编码字符的字符串作为编码输入.<br>这m*8位视为n个x位组，每个组根据对应的基数（64、32）翻译成成单个字符字母。当通过对应基数编码时，必须假定比特流是8位有效位，即最高位补（8-x个）0。</p>
-<ul>
-<li>编码输入如果恰好是m*8个整数倍位，输出将是n个字符的倍数。</li>
-<li>编码输入最终数量（之前是m*8个整数倍位）如果恰好是（m-y）*8个整数倍位，编码输出最终单位将是8/x（向上取整）个，后跟n-8/x（向上取整）个”=”填充字符。<br>base64: 3*8 -&gt; 4*6 -&gt;转码输出长度4*8<br>base32: 5*8 -&gt; 8*5 -&gt;转码输出长度8*8</li>
-<li>base16不需要填充<br>base32: 8 -&gt; 2*4 -&gt;转码输出长度2*8</li>
-</ul>
-<h1 id="Base64"><a href="#Base64" class="headerlink" title="Base64"></a>Base64</h1><p>用记事本打开exe\jpg\pdf等二进制文件时，有许多无法显示的字符，为了方便文本处理和可视化（非可视化），就需要bin2字符串转换。base64最常见。<br>也会用于网络8字节传输。查看RFC2045～RFC2049，上面有MIME的详细规范。</p>
-<h4 id="算法原理-–-解释一"><a href="#算法原理-–-解释一" class="headerlink" title="算法原理 – 解释一"></a>算法原理 – 解释一</h4><p><strong>Base64要求把每三个8Bit的字节转换为四个6Bit的字节（3*8 = 4*6 = 24），然后把6Bit再添两位高位0，组成四个8Bit的字节，也就是说，转换后的字符串理论上将要比原来的长1/3。</strong></p>
-<p>为什么用24个字节作为一组？<br>我们先想一下，1字节的ASCII编码是8Bit的有效长度，而1字节的Base64编码只有6Bit的有效长度，所以转换为Base64编码肯定是会造成浪费的，因此我们要找到最节约资源的方式——找6和8的最小公倍数，24。因此我们可以把3个字节（24Bit）的ASCII编码当成一组，分成4组，每组6Bit，然后高位补0（简单来说就是3*8=4*6）。</p>
-<p>举例：<br>转换前 aaaaaabb ccccdddd eeffffff<br>转换后 00aaaaaa 00bbcccc 00ddddee 00ffffff</p>
-<p>用一个码表得到目标字符串，这个表是这样的：<br>（摘自RFC2045–<a href="https://tools.ietf.org/html/rfc4648" target="_blank" rel="noopener">https://tools.ietf.org/html/rfc4648</a>)</p>
-<p><img src="en-resource://database/9958:1" alt="3cc8fb96267f0dc11cbf870d80f56f86.png"></p>
-<p>让我们再来看一个实际的例子，加深印象！<br>转换前 10101101 10111010 01110110<br>转换后 00101011 00011011 00101001 00110110<br>十进制 43 27 42 54<br>对应码表中的值 r b q 2<br>解码就是编码的逆操作</p>
-<p>编程过程是：</p>
-<p>第一个字符通过右移2位获得第一个目标字符的Base64表位置，根据这个数值取到表上相应的字符，就是第一个目标字符。<br>然后将第一个字符左移6位加上第二个字符右移4位，即获得第二个目标字符。<br>再将第二个字符左移4位加上第三个字符右移6位，获得第三个目标字符。<br>最后取第三个字符的右6位即获得第四个目标字符.</p>
-<h4 id="算法原理-–-解释二"><a href="#算法原理-–-解释二" class="headerlink" title="算法原理 – 解释二"></a>算法原理 – 解释二</h4><p>Base64是一种用64个字符来表示任意二进制数据的方法。<br><code>[&#39;A&#39;, &#39;B&#39;, &#39;C&#39;, ... &#39;a&#39;, &#39;b&#39;, &#39;c&#39;, ... &#39;0&#39;, &#39;1&#39;, ... &#39;+&#39;, &#39;/&#39;] &#39;=&#39;</code></p>
-<p>对二进制转换的时候，每3个字节一组，一共<strong>3x8=24</strong>字节，划分为4组，每组6字节。</p>
-<p>  <img src="en-resource://database/9948:1" alt="536545adaa36c28eb9847106fcca05dd.png"><br>这样我们得到4个数字作为索引，饭后查表，获得相应的4个字符 -就是编码后的字串。</p>
-<p>字符串理论上比之前长1/3，也就是原来的4/3。（除下面两种情况外）</p>
-<ul>
-<li><p>6bit里面的数据，全部是填充的，它显示的符号是第65个符号“=”。</p>
-</li>
-<li><p>6bit里面的数据，部分是填充的，按照索引表正常显示</p>
-</li>
-</ul>
-<p>如果要编码的二进制数据不是3的整数倍，最后剩下1个或者2个字节，base64用 <strong>\x00</strong>字节。再在末尾补足后加上一个或者2个等号，表示补了多少个字节，解码的时候会自动去掉。</p>
-<p>由于标准的base64编码可能出现字符+和/,在URL中不能直接作为参数，所以又有一种“usrl safe”的base64编码，其实就是把+和/分别变成-和_。</p>
-<h4 id="算法原理-–-解释三"><a href="#算法原理-–-解释三" class="headerlink" title="算法原理 – 解释三"></a>算法原理 – 解释三</h4><ul>
-<li>编码输入恰好是24的整数倍，编码输出是4个字符的整数倍</li>
-<li>编码输入最终数量恰好是8位，编码输出最终单位将是两个字符，后跟两个“==”填充字符</li>
-<li>编码输入最终数量恰好是16位，编码输出的最终单位将是三个字符，后跟一个“=”填充字符 </li>
-</ul>
-<h4 id="常用api"><a href="#常用api" class="headerlink" title="常用api"></a>常用api</h4><p>编码函数API调用</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">1，https:&#x2F;&#x2F;github.com&#x2F;gozfree&#x2F;gear-lib</span><br><span class="line"></span><br><span class="line">size_t base64_encode(char* target, const void *source, size_t bytes);</span><br><span class="line">size_t base64_encode_url(char* target, const void *source, size_t bytes);</span><br><span class="line">size_t base64_decode(void* target, const char *source, size_t bytes);</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">2，https:&#x2F;&#x2F;github.com&#x2F;ARMmbed&#x2F;mbedtls</span><br><span class="line"></span><br><span class="line">int mbedtls_base64_encode( unsigned char *dst, size_t dlen, size_t *olen, const unsigned char *src, size_t slen );</span><br><span class="line">int mbedtls_base64_decode( unsigned char *dst, size_t dlen, size_t *olen, const unsigned char *src, size_t slen );</span><br><span class="line"></span><br><span class="line">3，https:&#x2F;&#x2F;github.com&#x2F;aklomp&#x2F;base64&#x2F;blob&#x2F;master&#x2F;include&#x2F;libbase64.h</span><br><span class="line">C99, x86,arm上openmp加速，线程安全</span><br><span class="line"></span><br><span class="line">void base64_encode( const char *src, size_t srclen, char *out, size_t *outlen, int flags) ;</span><br><span class="line"></span><br><span class="line">void base64_stream_encode_init( struct base64_state *state, int flags) ;</span><br><span class="line">void base64_stream_encode( struct base64_state *state, const char *src, size_t srclen, char *out, size_t *outlen) ;</span><br><span class="line">void base64_stream_encode_final( struct base64_state *state, char *out, size_t *outlen) ;</span><br><span class="line"></span><br><span class="line">取命令行base16 32 64 命令的代码分析</span><br></pre></td></tr></table></figure>
-
-
-
-<p>Base64编码最常见的就是用在邮件发送等通信中。这种编码有利有弊，弊端在于ASCII编码转换成Base64编码的时候，由于每个字节都需要多出2个没用的Bit，所以是会造成浪费的。但是这样子用Base64编码进行数据交换的时候，就可以减少很多错误了。</p>
-<h1 id="Base32"><a href="#Base32" class="headerlink" title="Base32"></a>Base32</h1><p><code>[&#39;A&#39;, &#39;B&#39;, &#39;C&#39;, ... &#39;Z&#39;, &#39;2&#39;, &#39;3&#39;, ... &#39;7&#39;]  &#39;=&#39;</code>    </p>
-<p>扩展算法 base32hex<br><code>[&#39;0&#39;, &#39;1&#39;, ... &#39;9&#39;, &#39;A&#39;, &#39;B&#39;, &#39;C&#39;, ... &#39;V&#39;] &#39;=&#39;</code> </p>
-<p>只有编码表不同其他一样</p>
-<h1 id="Base16"><a href="#Base16" class="headerlink" title="Base16"></a>Base16</h1><p><code>[ &#39;0&#39;, &#39;1&#39;, ... &#39;9&#39;，&#39;A&#39;, &#39;B&#39;, &#39;C&#39;, &#39;D&#39;, &#39;E&#39;, &#39;F&#39;]</code></p>
-<h3 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h3><p><a href="https://tools.ietf.org/html/rfc4648" target="_blank" rel="noopener">https://tools.ietf.org/html/rfc4648</a><br>baidu google</p>
-
+        
       
 
       
@@ -449,18 +395,7 @@
       
         <p><strong>这个模型曾用于让无数人游戏上瘾，技术本无好坏，主要看怎么使用！</strong></p>
 <p>利用得当，可以使你从拖延症到坚持五年。 </p>
-<hr>
-<h2 id="step-1：设计诱因"><a href="#step-1：设计诱因" class="headerlink" title="step 1：设计诱因"></a>step 1：设计诱因</h2><pre><code>给日常所有接触的地方，都写好标签。内容可以是和目标相关的任何内容。确保可以反复出现在你面前。</code></pre><h2 id="step-2：切割目标"><a href="#step-2：切割目标" class="headerlink" title="step 2：切割目标"></a>step 2：切割目标</h2><pre><code>将目标切分的越细越好，每一个点都是一个小阶段。</code></pre><h2 id="step-3：制定反馈"><a href="#step-3：制定反馈" class="headerlink" title="step 3：制定反馈"></a>step 3：制定反馈</h2><pre><code>制定反馈方案，完成一个小阶段打卡，完成一个大阶段随机奖励。</code></pre><h2 id="step-4：引导投入"><a href="#step-4：引导投入" class="headerlink" title="step 4：引导投入"></a>step 4：引导投入</h2><pre><code>在此方向上增加投入，有钱投钱，有时间投时间，最好爱上他投入感情。</code></pre><h2 id="step-5：加强动机"><a href="#step-5：加强动机" class="headerlink" title="step 5：加强动机"></a>step 5：加强动机</h2><pre><code>只要自己一闲下来就想一想，如果此时放弃将要失去什么。</code></pre><hr>
-<p>比如：程序员要提升技术实力怎么做。</p>
-<ol>
-<li>使用便签，闹钟，桌面壁纸提醒不断积累知识</li>
-<li>每一个独立方向，指定学习计划，实战演练方式，时间周期。</li>
-<li>每完成一个小阶段，奖励自己看几页追的连载小说，每一个大阶段，休息两天，看电影，吃大餐等等。</li>
-<li>收集资料，优秀视频课程，经典资料书籍，来辅助1，2，3过程。上下班路上碎片化时间利用。</li>
-<li>反思职业生涯目标和压力。手艺是手艺人的安身立命之本，技术是技术人的底气。</li>
-</ol>
-<p>当然这个模型可以用于生活和工作的任何一个方向。</p>
-
+        
       
 
       
