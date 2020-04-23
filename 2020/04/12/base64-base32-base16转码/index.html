@@ -14,13 +14,13 @@
 <meta property="og:url" content="http://yoursite.com/2020/04/12/base64-base32-base16%E8%BD%AC%E7%A0%81/index.html">
 <meta property="og:site_name" content="yueer18">
 <meta property="og:description" content="基本概念ASCII 是用128（2的8次方）个字符，对二进制数据进行编码的方式base64编码是用64（2的6次方）个字符，对二进制数据进行编码的方式base32就是用32（2的5次方）个字符，对二进制数据进行编码的方式base16就是用16（2的4次方）个字符，对二进制数据进行编码的方式">
-<meta property="og:image" content="en-resource://database/9958:1">
-<meta property="og:image" content="en-resource://database/9948:1">
+<meta property="og:image" content="http://yoursite.com/2020/04/12/base64-base32-base16%E8%BD%AC%E7%A0%81/aa.png">
+<meta property="og:image" content="http://yoursite.com/2020/04/12/base64-base32-base16%E8%BD%AC%E7%A0%81/bb.png">
 <meta property="article:published_time" content="2020-04-11T16:09:40.000Z">
-<meta property="article:modified_time" content="2020-04-22T23:24:20.732Z">
+<meta property="article:modified_time" content="2020-04-23T22:41:09.030Z">
 <meta property="article:author" content="yueer18">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="en-resource://database/9958:1">
+<meta name="twitter:image" content="http://yoursite.com/2020/04/12/base64-base32-base16%E8%BD%AC%E7%A0%81/aa.png">
   
     <link rel="alternative" href="/atom.xml" title="yueer18" type="application/atom+xml">
   
@@ -199,13 +199,13 @@
 <p>为什么用24个字节作为一组？<br>我们先想一下，1字节的ASCII编码是8Bit的有效长度，而1字节的Base64编码只有6Bit的有效长度，所以转换为Base64编码肯定是会造成浪费的，因此我们要找到最节约资源的方式——找6和8的最小公倍数，24。因此我们可以把3个字节（24Bit）的ASCII编码当成一组，分成4组，每组6Bit，然后高位补0（简单来说就是3*8=4*6）。</p>
 <p>举例：<br>转换前 aaaaaabb ccccdddd eeffffff<br>转换后 00aaaaaa 00bbcccc 00ddddee 00ffffff</p>
 <p>用一个码表得到目标字符串，这个表是这样的：<br>（摘自RFC2045–<a href="https://tools.ietf.org/html/rfc4648" target="_blank" rel="noopener">https://tools.ietf.org/html/rfc4648</a>)</p>
-<p><img src="en-resource://database/9958:1" alt="3cc8fb96267f0dc11cbf870d80f56f86.png"></p>
+<p><img src="/2020/04/12/base64-base32-base16%E8%BD%AC%E7%A0%81/aa.png" alt></p>
 <p>让我们再来看一个实际的例子，加深印象！<br>转换前 10101101 10111010 01110110<br>转换后 00101011 00011011 00101001 00110110<br>十进制 43 27 42 54<br>对应码表中的值 r b q 2<br>解码就是编码的逆操作</p>
 <p>编程过程是：</p>
 <p>第一个字符通过右移2位获得第一个目标字符的Base64表位置，根据这个数值取到表上相应的字符，就是第一个目标字符。<br>然后将第一个字符左移6位加上第二个字符右移4位，即获得第二个目标字符。<br>再将第二个字符左移4位加上第三个字符右移6位，获得第三个目标字符。<br>最后取第三个字符的右6位即获得第四个目标字符.</p>
 <h4 id="算法原理-–-解释二"><a href="#算法原理-–-解释二" class="headerlink" title="算法原理 – 解释二"></a>算法原理 – 解释二</h4><p>Base64是一种用64个字符来表示任意二进制数据的方法。<br><code>[&#39;A&#39;, &#39;B&#39;, &#39;C&#39;, ... &#39;a&#39;, &#39;b&#39;, &#39;c&#39;, ... &#39;0&#39;, &#39;1&#39;, ... &#39;+&#39;, &#39;/&#39;] &#39;=&#39;</code></p>
 <p>对二进制转换的时候，每3个字节一组，一共<strong>3x8=24</strong>字节，划分为4组，每组6字节。</p>
-<p>  <img src="en-resource://database/9948:1" alt="536545adaa36c28eb9847106fcca05dd.png"><br>这样我们得到4个数字作为索引，饭后查表，获得相应的4个字符 -就是编码后的字串。</p>
+<p>  <img src="/2020/04/12/base64-base32-base16%E8%BD%AC%E7%A0%81/bb.png" alt><br>这样我们得到4个数字作为索引，饭后查表，获得相应的4个字符 -就是编码后的字串。</p>
 <p>字符串理论上比之前长1/3，也就是原来的4/3。（除下面两种情况外）</p>
 <ul>
 <li><p>6bit里面的数据，全部是填充的，它显示的符号是第65个符号“=”。</p>
