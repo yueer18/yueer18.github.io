@@ -15,7 +15,7 @@
 <meta property="og:site_name" content="yueer18">
 <meta property="og:description" content="从零搭建openstack调试环境随着版本更替，具体操作可能有细节变化，不过从学习角度看，还是有些意义的，当再次搭建时，可作为参考，遂记录之。工具和环境类操作，力求抛弃弯路，记录正确的路线。 1 使用devstack工具部署1.1 安装linux支持 Ubuntu, CentOS&#x2F;RHEL 7, Debian and OpenSUSE。 这里我们使用官方部署工具devstack，使用该工具当前（2">
 <meta property="article:published_time" content="2020-05-16T14:37:13.000Z">
-<meta property="article:modified_time" content="2020-05-16T14:37:57.505Z">
+<meta property="article:modified_time" content="2020-05-16T14:49:53.706Z">
 <meta property="article:author" content="yueer18">
 <meta name="twitter:card" content="summary">
   
@@ -213,7 +213,7 @@
 <p>遇到问题1，2，3，解决办法见第 <strong>2</strong> 部分，然后重新执行，这将花费15-20分钟，这在很大程度上取决于您的网速。</p>
 <h3 id="1-4-hello-world"><a href="#1-4-hello-world" class="headerlink" title="1.4 hello world"></a>1.4 hello world</h3><p>至此，我们就安装完成，包含 <strong>keystone, glance, nova, placement, cinder, neutron, 和 horizon</strong>。可以从web访问openstack</p>
 <blockquote>
-<p>http://<ip></ip></p>
+<p>http:// Your IP</p>
 </blockquote>
 <p>也可以通过命令行shell管理</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">source openrc</span><br><span class="line">openstack --help</span><br></pre></td></tr></table></figure>
