@@ -182,58 +182,7 @@
     <div class="article-entry" itemprop="articleBody">
       
         <h1 id="从零搭建openstack调试环境"><a href="#从零搭建openstack调试环境" class="headerlink" title="从零搭建openstack调试环境"></a>从零搭建openstack调试环境</h1><p>随着版本更替，具体操作可能有细节变化，不过从学习角度看，还是有些意义的，当再次搭建时，可作为参考，遂记录之。<br>工具和环境类操作，力求抛弃弯路，记录正确的路线。</p>
-<h2 id="1-使用devstack工具部署"><a href="#1-使用devstack工具部署" class="headerlink" title="1 使用devstack工具部署"></a>1 使用devstack工具部署</h2><h3 id="1-1-安装linux"><a href="#1-1-安装linux" class="headerlink" title="1.1 安装linux"></a>1.1 安装linux</h3><p>支持 Ubuntu, CentOS/RHEL 7, Debian and OpenSUSE。</p>
-<p>这里我们使用官方部署工具devstack，使用该工具当前（2020.05）兼容性较好的系统 <a href="http://59.80.44.47/releases.ubuntu.com/202005161524/A7F8380088ADED6B7B512901DC56E8F6/18.04/ubuntu-18.04.4-desktop-amd64.iso" target="_blank" rel="noopener">ubuntu18.04</a> 。</p>
-<p><em>已有linux系统且不怕系统上下文环境影响，跳过这里。</em></p>
-<h3 id="1-2-设置系统环境"><a href="#1-2-设置系统环境" class="headerlink" title="1.2 设置系统环境"></a>1.2 设置系统环境</h3><p>1.2.1 安装基本工具</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get install git</span><br><span class="line">sudo apt-get install python-pip</span><br><span class="line">sudo pip install --upgrade pip</span><br><span class="line">sudo pip install -U os-testr</span><br></pre></td></tr></table></figure>
-<p>1.2.2 将 <strong>/etc/apt/sources.list</strong> 内容替换为如下ubuntu18.04的国内软件源。</p>
-<blockquote>
-<p>deb <a href="http://mirrors.aliyun.com/ubuntu/" target="_blank" rel="noopener">http://mirrors.aliyun.com/ubuntu/</a> bionic main restricted universe multiverse<br>deb-src <a href="http://mirrors.aliyun.com/ubuntu/" target="_blank" rel="noopener">http://mirrors.aliyun.com/ubuntu/</a> bionic main restricted universe multiverse<br>deb <a href="http://mirrors.aliyun.com/ubuntu/" target="_blank" rel="noopener">http://mirrors.aliyun.com/ubuntu/</a> bionic-security main restricted universe multiverse<br>deb-src <a href="http://mirrors.aliyun.com/ubuntu/" target="_blank" rel="noopener">http://mirrors.aliyun.com/ubuntu/</a> bionic-security main restricted universe multiverse<br>deb <a href="http://mirrors.aliyun.com/ubuntu/" target="_blank" rel="noopener">http://mirrors.aliyun.com/ubuntu/</a> bionic-updates main restricted universe multiverse<br>deb-src <a href="http://mirrors.aliyun.com/ubuntu/" target="_blank" rel="noopener">http://mirrors.aliyun.com/ubuntu/</a> bionic-updates main restricted universe multiverse<br>deb <a href="http://mirrors.aliyun.com/ubuntu/" target="_blank" rel="noopener">http://mirrors.aliyun.com/ubuntu/</a> bionic-backports main restricted universe multiverse<br>deb-src <a href="http://mirrors.aliyun.com/ubuntu/" target="_blank" rel="noopener">http://mirrors.aliyun.com/ubuntu/</a> bionic-backports main restricted universe multiverse<br>deb <a href="http://mirrors.aliyun.com/ubuntu/" target="_blank" rel="noopener">http://mirrors.aliyun.com/ubuntu/</a> bionic-proposed main restricted universe multiverse</p>
-</blockquote>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">apt update</span><br></pre></td></tr></table></figure>
-<p>更换pip源</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">mkdir .pip</span><br><span class="line">vi .pip&#x2F;pip.conf</span><br></pre></td></tr></table></figure>
-<blockquote>
-<p>[global]<br>index-url = <a href="http://pypi.douban.com/simple/" target="_blank" rel="noopener">http://pypi.douban.com/simple/</a><br>trusted-host = pypi.douban.com<br>更新系统时间</p>
-</blockquote>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">设定时区：sudo dpkg-reconfigure tzdata</span><br><span class="line">选择Asia -&gt; 在选择Shanghai -&gt; OK</span><br><span class="line"></span><br><span class="line">同步时间命令：</span><br><span class="line">sudo apt-get install ntpdate </span><br><span class="line">sudo ntpdate cn.pool.ntp.org</span><br></pre></td></tr></table></figure>
-
-<h3 id="1-3-devstack安装openstack"><a href="#1-3-devstack安装openstack" class="headerlink" title="1.3 devstack安装openstack"></a>1.3 devstack安装openstack</h3><p>设置stack用户</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">sudo useradd -s &#x2F;bin&#x2F;bash -d &#x2F;opt&#x2F;stack -m stack</span><br><span class="line">echo &quot;stack ALL&#x3D;(ALL) NOPASSWD: ALL&quot; | sudo tee &#x2F;etc&#x2F;sudoers.d&#x2F;stack</span><br><span class="line">sudo su - stack</span><br></pre></td></tr></table></figure>
-<p>下载devstack并使用最简配置</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">git clone https:&#x2F;&#x2F;opendev.org&#x2F;openstack&#x2F;devstack</span><br><span class="line">cd devstack</span><br><span class="line">vim local.conf</span><br></pre></td></tr></table></figure>
-<blockquote>
-<p>[[local|localrc]]<br>ADMIN_PASSWORD=secret<br>DATABASE_PASSWORD=$ADMIN_PASSWORD<br>RABBIT_PASSWORD=$ADMIN_PASSWORD<br>SERVICE_PASSWORD=$ADMIN_PASSWORD</p>
-</blockquote>
-<p>执行安装</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$.&#x2F;stack.sh</span><br></pre></td></tr></table></figure>
-<p>遇到问题1，2，3，解决办法见第 <strong>2</strong> 部分，然后重新执行，这将花费15-20分钟，这在很大程度上取决于您的网速。</p>
-<h3 id="1-4-hello-world"><a href="#1-4-hello-world" class="headerlink" title="1.4 hello world"></a>1.4 hello world</h3><p>至此，我们就安装完成，包含 <strong>keystone, glance, nova, placement, cinder, neutron, 和 horizon</strong>。可以从web访问openstack</p>
-<blockquote>
-<p>http:// Your IP</p>
-</blockquote>
-<p>也可以通过命令行shell管理</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">source openrc</span><br><span class="line">openstack --help</span><br></pre></td></tr></table></figure>
-<p>进行测试</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cd &#x2F;opt&#x2F;stack&#x2F;tempest</span><br></pre></td></tr></table></figure>
-<p>或者修改代码验证。</p>
-<h2 id="2-安装中的问题"><a href="#2-安装中的问题" class="headerlink" title="2 安装中的问题"></a>2 安装中的问题</h2><h5 id="问题-1-env-http-proxy-…-opt-stack-requirements-venv-bin-pip-install-c-opt-stack-requirements-upper-constraints-txt-…"><a href="#问题-1-env-http-proxy-…-opt-stack-requirements-venv-bin-pip-install-c-opt-stack-requirements-upper-constraints-txt-…" class="headerlink" title="问题 1 env http_proxy=  …   /opt/stack/requirements/.venv/bin/pip  install -c /opt/stack/requirements/upper-constraints.txt   …"></a>问题 1 env http_proxy=  …   /opt/stack/requirements/.venv/bin/pip  install -c /opt/stack/requirements/upper-constraints.txt   …</h5><p>原因是代码里的pip版本太低，使用系统里的pip工具</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">rm &#x2F;opt&#x2F;stack&#x2F;requirements&#x2F;.venv&#x2F;bin&#x2F;pip</span><br><span class="line">ln -s &#x2F;opt&#x2F;stack&#x2F;requirements&#x2F;.venv&#x2F;bin&#x2F;pip &#x2F;usr&#x2F;local&#x2F;bin&#x2F;pip</span><br></pre></td></tr></table></figure>
-
-<h5 id="问题-2：-opt-stack-devstack-inc-python-line-392-opt-stack-requirements-venv-bin-edit-constraints-No-such-file-or-directory"><a href="#问题-2：-opt-stack-devstack-inc-python-line-392-opt-stack-requirements-venv-bin-edit-constraints-No-such-file-or-directory" class="headerlink" title="问题 2：/opt/stack/devstack/inc/python: line 392: /opt/stack/requirements/.venv/bin/edit-constraints: No such file or directory"></a>问题 2：/opt/stack/devstack/inc/python: line 392: /opt/stack/requirements/.venv/bin/edit-constraints: No such file or directory</h5><p>原理是执行路径里缺少工具</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo python &#x2F;opt&#x2F;stack&#x2F;requirements&#x2F;setup.py install</span><br><span class="line">cp  &#x2F;usr&#x2F;local&#x2F;bin&#x2F;edit-constraints &#x2F;opt&#x2F;stack&#x2F;requirements&#x2F;.venv&#x2F;bin&#x2F;edit-constraints</span><br></pre></td></tr></table></figure>
-<p>并将/opt/stack/requirements/.venv/bin/edit-constraints中的第一行的python解释器改为python3，不然就会报问题3。</p>
-<blockquote>
-<p>#!/usr/bin/python3</p>
-</blockquote>
-<h5 id="问题-3-No-module-named-packaging-specifiers"><a href="#问题-3-No-module-named-packaging-specifiers" class="headerlink" title="问题 3 No module named packaging.specifiers"></a>问题 3 No module named packaging.specifiers</h5><p>原因是系统默认的python2.7版本还没有这个模块，高版本才提供这个功能。</p>
-<h5 id="问题-4-Installing-collected-packages-oslo-rootwrap-simplejson-python-cinderclient-glance-store"><a href="#问题-4-Installing-collected-packages-oslo-rootwrap-simplejson-python-cinderclient-glance-store" class="headerlink" title="问题 4 Installing collected packages: oslo.rootwrap, simplejson, python-cinderclient, glance-store"></a>问题 4 Installing collected packages: oslo.rootwrap, simplejson, python-cinderclient, glance-store</h5><p>  Attempting uninstall: simplejson<br>    Found existing installation: simplejson 3.13.2<br>ERROR: Cannot uninstall ‘simplejson’. It is a distutils installed project and thus we cannot accurately determine which files belong to it which would lead to only a partial uninstall.<br>原因是安装模块的时候，卸载不掉冲突模块，pip模块管理和apt包管理还没有智能到这种程度，需要我们自己判断解决冲突。<br>全局查找这个模块名对应的文件，根据文件定位包名，卸载依赖于它的包和它本身。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">find &#x2F;usr&#x2F;lib  | grep simplejson</span><br><span class="line">dpkg -S &#x2F;usr&#x2F;lib&#x2F;python3&#x2F;dist-packages&#x2F;simplejson</span><br><span class="line">sudo dpkg -P python3-launchpadlib python3-lazr.restfulclient   python3-simplejson</span><br></pre></td></tr></table></figure>
-
-
-<h2 id="3-参考与扩展："><a href="#3-参考与扩展：" class="headerlink" title="3 参考与扩展："></a>3 参考与扩展：</h2><p><a href="https://docs.openstack.org/devstack/latest/" target="_blank" rel="noopener">openstack官方文档</a></p>
-
+        
       
 
       
